@@ -4,7 +4,12 @@ const express = require("express");
 const router = express.Router();
 
 const {feedbackStore} = require("../data/feedback.data");
-const {analyzeSentiment, detectThemes, countThemes} = require("../services/service");
+const {
+  analyzeSentiment,
+  detectThemes,
+  countThemes,
+  countThemeSentiment
+} = require("../services/service");
 
 // POST feedback
 router.post("/", (req, res) => {
@@ -72,8 +77,8 @@ router.get("/dashboard/:productId", (req, res) => {
     else neutral++;
   });
 
-
   const themeSummary = countThemes(productFeedback);
+  const themeSentiment = countThemeSentiment(productFeedback);
 
   res.json({
     productId,
@@ -82,9 +87,9 @@ router.get("/dashboard/:productId", (req, res) => {
       negative,
       neutral
     },
-    themes: themeSummary
+    themes: themeSummary,
+    themeSentiment
   });
 });
-
 
 module.exports = router;
