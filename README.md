@@ -100,6 +100,22 @@ The frontend UI is styled with a **GIVA-inspired design** to resemble a real e-c
 
 ---
 
+## 📸 Screenshots
+
+### Submit Feedback (Initial State)
+![Submit Feedback](Screenshot/Screenshot%202026-01-16%20023959.png)
+
+### Submit Feedback (Filled & Rating Selected)
+![Submit Feedback Filled](Screenshot/Screenshot%202026-01-16%20024031.png)
+
+### Dashboard Overview
+![Dashboard](Screenshot/Screenshot%202026-01-16%20024142.png)
+
+### Generated Insights
+![Insights](Screenshot/Screenshot%202026-01-16%20024334.png)
+
+---
+
 ## EDGE CASES, BUGS AND FIXES
 
 ### 1. CORS & Fetch Errors
