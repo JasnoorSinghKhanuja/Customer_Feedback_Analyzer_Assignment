@@ -85,10 +85,32 @@ function countThemes(feedbackList) {
   return themeCounts;
 }
 
+//per-theme analysis
+function countThemeSentiment(feedbackList) {
+  const themeSentiment = {};
 
+  feedbackList.forEach(feedback => {
+    feedback.themes.forEach(theme => {
+      if (!themeSentiment[theme]) {
+        themeSentiment[theme] = { positive: 0, negative: 0 };
+      }
+
+      if (feedback.sentiment === "positive") {
+        themeSentiment[theme].positive++;
+      }
+
+      if (feedback.sentiment === "negative") {
+        themeSentiment[theme].negative++;
+      }
+    });
+  });
+
+  return themeSentiment;
+}
 
 module.exports = {
   analyzeSentiment,
   detectThemes,
-  countThemes
+  countThemes,
+  countThemeSentiment
 };
