@@ -2,7 +2,6 @@
 
 let selectedRating = null;
 let sentimentChart = null;
-//let lastSelectedProduct = null;
 let lastSelectedProduct = "ring_1"; 
 let lastDashboardData = null;
 
@@ -86,7 +85,6 @@ document.getElementById("submit").onclick = () => {
 
 //load dashboard
 function loadDashboard(productId = lastSelectedProduct) {
-  // const productId = lastSelectedProduct;
 
   fetch(`http://localhost:3000/feedback/dashboard/${productId}`)
     .then(res => res.json())
@@ -191,7 +189,7 @@ function generateInsights() {
     return;
   }
 
-  const {sentiment, themes} = lastDashboardData;
+  const { sentiment, themes, themeSentiment } = lastDashboardData;
 
   const totalReviews =
     sentiment.positive + sentiment.negative + sentiment.neutral;
@@ -204,23 +202,39 @@ function generateInsights() {
   const insights = [];
 
   // Durability issues 
-  if ((themes.durability || 0) >= 2 && sentiment.negative > sentiment.positive) {
+  if (
+    themeSentiment.durability &&
+    themeSentiment.durability.negative >= 2 &&
+    themeSentiment.durability.negative >
+      themeSentiment.durability.positive
+  ) {
     insights.push(
       "Multiple durability issues detected, improve material strength and quality."
     );
   }
 
   // Comfort issues 
-  if ((themes.comfort || 0) >= 2 && sentiment.negative > sentiment.positive) {
+  if (
+    themeSentiment.comfort &&
+    themeSentiment.comfort.negative >= 2 &&
+    themeSentiment.comfort.negative >
+      themeSentiment.comfort.positive
+  ) {
     insights.push(
       "Multiple comfort related complaints found, try more lighter designs."
     );
   }
 
   // appearance feedback
-  if((themes.appearance || 0) >= 2 && sentiment.positive < sentiment.negative){
+  if (
+    themeSentiment.appearance &&
+    themeSentiment.appearance.negative >= 2 &&
+    themeSentiment.appearance.negative >
+      themeSentiment.appearance.positive
+  ) {
     insights.push(
-      "Customers complains about the product appearance, improve designs and shine");
+      "Customers complains about the product appearance, improve designs and shine"
+    );
   }
 
   // Overall negative sentiment
@@ -233,7 +247,7 @@ function generateInsights() {
   // neutral review
   if (insights.length === 0) {
     insights.push(
-      "Feedback is balanced with no major issues detected."
+      "Feedback is balanced with no major issues."
     );
   }
 
@@ -241,6 +255,7 @@ function generateInsights() {
     container.querySelector(".insight-box").innerHTML += `<p>• ${text}</p>`;
   });
 }
+
 
 
 //display insight text
